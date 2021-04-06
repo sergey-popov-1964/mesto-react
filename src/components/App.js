@@ -26,7 +26,6 @@ function App() {
 	}
 
 	function closeAllPopups() {
-		// setPopupClose(!isPopupClose);
 		setPopupEditAсtive(false);
 		setPopupAvatarAсtive(false);
 		setPopupAddAсtive(false);
@@ -41,7 +40,7 @@ function App() {
 				<Footer/>
 
 				<PopupWithForm isOpen={isEditProfilePopupOpen} name="form-edit" title="Редактировать профиль"
-									onClosePopup={closeAllPopups}>
+									onClose={closeAllPopups}>
 					<label className="form__label">
 						<input type="text" id="input-name"
 								 className="form__input form__input_type_first form__input_edit_name"
@@ -58,7 +57,7 @@ function App() {
 				</PopupWithForm>
 
 				<PopupWithForm isOpen={isAddPlacePopupOpen} name="form-add" title="Новое место"
-									onClosePopup={closeAllPopups}>
+									onClose={closeAllPopups}>
 					<label className="form__label">
 						<input type="text" id="input-mesto"
 								 className="form__input form__input_type_first form__input_add_name"
@@ -75,7 +74,7 @@ function App() {
 				</PopupWithForm>
 
 				<PopupWithForm isOpen={isEditAvatarPopupOpen} name="form-avatar" title="Обновить аватар"
-									onClosePopup={closeAllPopups}>
+									onClose={closeAllPopups}>
 					<label className="form__label">
 						<input type="url" id="input-avatar"
 								 className="form__input form__input_type_last form__input_type_first form__input_avatar_link"
