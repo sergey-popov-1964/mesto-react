@@ -4,14 +4,19 @@ import Footer from "./Footer";
 import Main from "./Main";
 import PopupWithForm from "./PopupWithForm";
 import React from "react";
+import ImagePopup from "./ImagePopup";
 
 function App() {
 
-	// const [isPopupClose, setPopupClose] = React.useState(false);
 	const [isEditProfilePopupOpen, setPopupEditAсtive] = React.useState(false);
 	const [isAddPlacePopupOpen, setPopupAddAсtive] = React.useState(false);
 	const [isEditAvatarPopupOpen, setPopupAvatarAсtive] = React.useState(false);
+	const [selectedCard, setCardClick ] = React.useState(false);
 
+
+	function handleCardClick(card) {
+		setCardClick(card);
+	}
 
 	function handleEditProfileClick() {
 		setPopupEditAсtive(!isEditProfilePopupOpen);
@@ -29,6 +34,7 @@ function App() {
 		setPopupEditAсtive(false);
 		setPopupAvatarAсtive(false);
 		setPopupAddAсtive(false);
+		setCardClick(false);
 	}
 
 	return (
@@ -36,10 +42,11 @@ function App() {
 			<div className="page">
 				<Header/>
 				<Main onEditProfile={handleEditProfileClick} onAddPlace={handleAddPlaceClick}
-						onEditAvatar={handleEditAvatarClick}/>
+						onEditAvatar={handleEditAvatarClick}  onCardClick={handleCardClick}/>
 				<Footer/>
 
-				<PopupWithForm isOpen={isEditProfilePopupOpen} name="form-edit" title="Редактировать профиль"
+				<PopupWithForm isOpen={isEditProfilePopupOpen} name="edit" title="Редактировать профиль"
+									buttonText="Сохранить"
 									onClose={closeAllPopups}>
 					<label className="form__label">
 						<input type="text" id="input-name"
@@ -56,7 +63,7 @@ function App() {
 					</label>
 				</PopupWithForm>
 
-				<PopupWithForm isOpen={isAddPlacePopupOpen} name="form-add" title="Новое место"
+				<PopupWithForm isOpen={isAddPlacePopupOpen} name="add" title="Новое место" buttonText="Создать"
 									onClose={closeAllPopups}>
 					<label className="form__label">
 						<input type="text" id="input-mesto"
@@ -73,7 +80,8 @@ function App() {
 					</label>
 				</PopupWithForm>
 
-				<PopupWithForm isOpen={isEditAvatarPopupOpen} name="form-avatar" title="Обновить аватар"
+				<PopupWithForm isOpen={isEditAvatarPopupOpen} name="avatar" title="Обновить аватар"
+									buttonText="Сохранить"
 									onClose={closeAllPopups}>
 					<label className="form__label">
 						<input type="url" id="input-avatar"
@@ -85,6 +93,8 @@ function App() {
 				</PopupWithForm>
 			</div>
 
+			<ImagePopup card={selectedCard} onClose={closeAllPopups}/>
+
 			<div className="popup-delete popup">
 				<form action="#" className="form popup__form" name="form__delete" noValidate>
 					<h2 className="form__title">Вы уверены?</h2>
@@ -94,29 +104,6 @@ function App() {
 					<button type="button" aria-label="close" className="form__close popup__close" name="form_close"></button>
 				</form>
 			</div>
-
-			<div className="popup-image popup">
-				<div className="zoom-img popup__form">
-					<img src="#" className="zoom-img__img" alt="Увеличенное изображение из карточки"/>
-					<p className="zoom-img__text"></p>
-					<button type="button" className="zoom-img__close popup__close"></button>
-				</div>
-			</div>
-
-			<template className="element-mesto">
-				<li className="element">
-					<div className="element__img">
-						<button type="button" className="element__trash"></button>
-					</div>
-					<div className="element__info">
-						<p className="element__text"></p>
-						<div className="element__likes">
-							<button type="button" className="element__heart"></button>
-							<span className="element__counter-like"></span>
-						</div>
-					</div>
-				</li>
-			</template>
 		</div>
 
 	);
