@@ -2,11 +2,10 @@ import React from "react";
 import Card from "./Card";
 import api from './../utils/Api';
 
-
 function Main(props) {
 
 	const [userName, gettUserName] = React.useState('');
-	const [userDescription,gettUserDescription] = React.useState('');
+	const [userDescription, gettUserDescription] = React.useState('');
 	const [userAvatar, getUserAvatar] = React.useState('');
 	const [cards, getCards] = React.useState([]);
 
@@ -16,10 +15,10 @@ function Main(props) {
 				gettUserName(data[0].name);
 				gettUserDescription(data[0].about);
 				getUserAvatar(data[0].avatar);
-				getCards(data[1]);
+				getCards(data[1].reverse());
 			})
 			.catch(() => console.log(`Ошибка загрузки данных с сервера`));
-	},[]);
+	}, []);
 
 	return (
 		<main className="content">
@@ -43,7 +42,6 @@ function Main(props) {
 					))}
 				</ul>
 			</section>
-
 
 		</main>
 	)

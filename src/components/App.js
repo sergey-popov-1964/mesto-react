@@ -1,4 +1,3 @@
-import '../App.css';
 import Header from "./Header";
 import Footer from "./Footer";
 import Main from "./Main";
@@ -11,11 +10,10 @@ function App() {
 	const [isEditProfilePopupOpen, setPopupEditAсtive] = React.useState(false);
 	const [isAddPlacePopupOpen, setPopupAddAсtive] = React.useState(false);
 	const [isEditAvatarPopupOpen, setPopupAvatarAсtive] = React.useState(false);
-	const [selectedCard, setCardClick ] = React.useState(false);
-
+	const [selectedCard, setCardActive] = React.useState(false);
 
 	function handleCardClick(card) {
-		setCardClick(card);
+		setCardActive(card);
 	}
 
 	function handleEditProfileClick() {
@@ -34,7 +32,7 @@ function App() {
 		setPopupEditAсtive(false);
 		setPopupAvatarAсtive(false);
 		setPopupAddAсtive(false);
-		setCardClick(false);
+		setCardActive(false);
 	}
 
 	return (
@@ -42,7 +40,7 @@ function App() {
 			<div className="page">
 				<Header/>
 				<Main onEditProfile={handleEditProfileClick} onAddPlace={handleAddPlaceClick}
-						onEditAvatar={handleEditAvatarClick}  onCardClick={handleCardClick}/>
+						onEditAvatar={handleEditAvatarClick} onCardClick={handleCardClick}/>
 				<Footer/>
 
 				<PopupWithForm isOpen={isEditProfilePopupOpen} name="edit" title="Редактировать профиль"
@@ -91,19 +89,14 @@ function App() {
 						<span className="form__error input-avatar-error"></span>
 					</label>
 				</PopupWithForm>
+
+				<PopupWithForm name="delete" title="Вы уверены?" buttonText="Да" onClose={closeAllPopups}>
+				</PopupWithForm>
+
+				<ImagePopup card={selectedCard} onClose={closeAllPopups}/>
+
 			</div>
 
-			<ImagePopup card={selectedCard} onClose={closeAllPopups}/>
-
-			<div className="popup-delete popup">
-				<form action="#" className="form popup__form" name="form__delete" noValidate>
-					<h2 className="form__title">Вы уверены?</h2>
-					<button type="submit" aria-label="submit" className="form__submit" name="form_submit">
-						Да
-					</button>
-					<button type="button" aria-label="close" className="form__close popup__close" name="form_close"></button>
-				</form>
-			</div>
 		</div>
 
 	);
