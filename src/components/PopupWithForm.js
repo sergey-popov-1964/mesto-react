@@ -3,13 +3,21 @@ import React from "react";
 function PopupWithForm(props) {
 	return (
 		<div className={props.isOpen ? `popup-${props.name} popup popup_active` : `popup-${props.name} popup`}>
-			<form action="#" className="form popup__form" name={`form__${props.name}`} noValidate>
+			<form action="#"
+					className="form popup__form"
+					name={`form__${props.name}`} noValidate>
 				<h2 className="form__title">{props.title}</h2>
 				{props.children}
-				<button type="submit" aria-label="submit" className="form__submit" name="form_submit">
+				<button type="submit"
+						  aria-label="submit"
+						  className="form__submit"
+						  name="form_submit">
 					{props.buttonText}
 				</button>
-				<button type="button" aria-label="close" className="form__close popup__close" name="form_close"
+				<button type="button"
+						  aria-label="close"
+						  className="form__close popup__close"
+						  name="form_close"
 						  onClick={props.onClose}></button>
 			</form>
 		</div>

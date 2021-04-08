@@ -1,13 +1,13 @@
 class Api {
-	constructor(baseUrl, config) {
+	constructor(baseUrl, baseHeaders) {
 		this._baseUrl = baseUrl;
-		this._config = config;
+		this.baseHeaders = baseHeaders;
 	}
 
-	getInitialCards() {
+	getCards() {
 		return fetch(`${this._baseUrl}/cards`, {
 			method: 'GET',
-			headers: this._config,
+			headers: this.baseHeaders,
 		})
 			.then(res => {
 				if (res.ok) {
@@ -17,10 +17,10 @@ class Api {
 			});
 	}
 
-	getInitialUserInfo() {
+	getUserInfo() {
 		return fetch(`${this._baseUrl}/users/me`, {
 			method: 'GET',
-			headers: this._config,
+			headers: this.baseHeaders,
 		})
 			.then(res => {
 				if (res.ok) {
@@ -33,7 +33,7 @@ class Api {
 	setUserInfo(data) {
 		return fetch(`${this._baseUrl}/users/me`, {
 			method: 'PATCH',
-			headers: this._config,
+			headers: this.baseHeaders,
 			body: JSON.stringify(data)
 		})
 			.then(res => {
@@ -47,7 +47,7 @@ class Api {
 	setUserAvatar(data) {
 		return fetch(`${this._baseUrl}/users/me/avatar`, {
 			method: 'PATCH',
-			headers: this._config,
+			headers: this.baseHeaders,
 			body: JSON.stringify(data)
 		})
 			.then(res => {
@@ -61,7 +61,7 @@ class Api {
 	addCard(data) {
 		return fetch(`${this._baseUrl}/cards`, {
 			method: 'POST',
-			headers: this._config,
+			headers: this.baseHeaders,
 			body: JSON.stringify(data)
 		})
 			.then(res => {
@@ -75,7 +75,7 @@ class Api {
 	deleteCards(data) {
 		return fetch(`${this._baseUrl}/cards/${data._id}`, {
 			method: 'DELETE',
-			headers: this._config,
+			headers: this.baseHeaders,
 		})
 			.then(res => {
 				if (res.ok) {
@@ -88,7 +88,7 @@ class Api {
 	setCardLike(data) {
 		return fetch(`${this._baseUrl}/cards/likes/${data._id}`, {
 			method: 'PUT',
-			headers: this._config,
+			headers: this.baseHeaders,
 		})
 			.then(res => {
 				if (res.ok) {
@@ -101,7 +101,7 @@ class Api {
 	deleteCardLike(data) {
 		return fetch(`${this._baseUrl}/cards/likes/${data._id}`, {
 			method: 'DELETE',
-			headers: this._config,
+			headers: this.baseHeaders,
 		})
 			.then(res => {
 				if (res.ok) {
@@ -113,9 +113,8 @@ class Api {
 	}
 }
 
-const authorization = {authorization: 'be1a7eff-1608-42e4-ab79-a96e12a8c4b6', 'Content-Type': 'application/json'};
+const baseHeaders = {authorization: 'be1a7eff-1608-42e4-ab79-a96e12a8c4b6', 'Content-Type': 'application/json'};
 const baseUrl = 'https://mesto.nomoreparties.co/v1/cohort-21';
-// const user_ID = '3e2a74326fac3d4d7e8ff79b';
-const api = new Api(baseUrl, authorization);
+const api = new Api(baseUrl, baseHeaders);
 
 export default api;

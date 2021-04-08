@@ -1,23 +1,24 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import Card from "./Card";
-import api from './../utils/Api';
+import api from "./../utils/Api";
 
 function Main(props) {
 
-	const [userName, gettUserName] = React.useState('');
-	const [userDescription, gettUserDescription] = React.useState('');
-	const [userAvatar, getUserAvatar] = React.useState('');
-	const [cards, getCards] = React.useState([]);
+	const [userName, setUserName] = useState("");
+	const [userDescription, setUserDescription] = useState("");
+	const [userAvatar, setUserAvatar] = useState("");
+	const [cards, setCards] = useState([]);
 
-	React.useEffect(() => {
-		Promise.all([api.getInitialUserInfo(), api.getInitialCards()])
+	useEffect(() => {
+		Promise.all([api.getUserInfo(), api.getCards()])
 			.then(data => {
-				gettUserName(data[0].name);
-				gettUserDescription(data[0].about);
-				getUserAvatar(data[0].avatar);
-				getCards(data[1].reverse());
+				const [userInfo, cards] = data;
+				setUserName(userInfo.name);
+				setUserDescription(userInfo.about);
+				setUserAvatar(userInfo.avatar);
+				setCards(cards.reverse());
 			})
-			.catch(() => console.log(`Ошибка загрузки данных с сервера`));
+			.catch(() => console.log("Ошибка загрузки данных с сервера"));
 	}, []);
 
 	return (
@@ -28,17 +29,25 @@ function Main(props) {
 				</div>
 				<div className="profile__info">
 					<h1 className="profile__name">{userName}</h1>
-					<button type="button" aria-label="add" className="profile__button-edit"
-							  onClick={props.onEditProfile}></button>
+					<button type="button"
+							  aria-label="add"
+							  className="profile__button-edit"
+							  onClick={props.onEditProfile}>
+					</button>
 					<p className="profile__job">{userDescription}</p>
 				</div>
-				<button type="button" aria-label="edit" className="profile__button-add" onClick={props.onAddPlace}></button>
+				<button type="button"
+						  aria-label="edit"
+						  className="profile__button-add"
+						  onClick={props.onAddPlace}></button>
 			</section>
 
 			<section className="elements">
 				<ul className="elements__list">
-					{cards.map((item, i) => (
-						<Card card={item} onCardClick={props.onCardClick} key={item._id}/>
+					{cards.map((item) => (
+						<Card card={item}
+								onCardClick={props.onCardClick}
+								key={item._id}/>
 					))}
 				</ul>
 			</section>
