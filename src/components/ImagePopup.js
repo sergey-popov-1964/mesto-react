@@ -3,7 +3,7 @@ import React from "react";
 function ImagePopup(props) {
 	if (props.card) {
 		return (
-			<div className={!props.card ? `popup-${props.name} popup` : `popup-${props.name} popup popup_active`}>
+			<div className={`popup-${props.name} popup popup_active`}>
 				<div className="zoom-img popup__form">
 					<img src={props.card.link} className="zoom-img__img"
 						  alt="Увеличенное изображение из карточки"/>
