@@ -72,8 +72,8 @@ class Api {
 			});
 	}
 
-	deleteCards(data) {
-		return fetch(`${this._baseUrl}/cards/${data._id}`, {
+	deleteCards(id) {
+		return fetch(`${this._baseUrl}/cards/${id}`, {
 			method: 'DELETE',
 			headers: this.baseHeaders,
 		})
@@ -85,32 +85,32 @@ class Api {
 			});
 	}
 
-	setCardLike(data) {
-		return fetch(`${this._baseUrl}/cards/likes/${data._id}`, {
-			method: 'PUT',
-			headers: this.baseHeaders,
-		})
-			.then(res => {
-				if (res.ok) {
-					return res.json();
-				}
-				return Promise.reject(`Ошибка: ${res.status}`);
-			});
+	changeLikeCardStatus(id, isLike) {
+		if (isLike) {
+			return fetch(`${this._baseUrl}/cards/likes/${id}`, {
+				method: 'PUT',
+				headers: this.baseHeaders,
+			})
+				.then(res => {
+					if (res.ok) {
+						return res.json();
+					}
+					return Promise.reject(`Ошибка: ${res.status}`);
+				});
+		} else {
+			return fetch(`${this._baseUrl}/cards/likes/${id}`, {
+				method: 'DELETE',
+				headers: this.baseHeaders,
+			})
+				.then(res => {
+					if (res.ok) {
+						return res.json();
+					}
+					return Promise.reject(`Ошибка: ${res.status}`);
+				});
+		}
 	}
 
-	deleteCardLike(data) {
-		return fetch(`${this._baseUrl}/cards/likes/${data._id}`, {
-			method: 'DELETE',
-			headers: this.baseHeaders,
-		})
-			.then(res => {
-				if (res.ok) {
-					return res.json();
-				}
-				return Promise.reject(`Ошибка: ${res.status}`);
-			});
-
-	}
 }
 
 const baseHeaders = {authorization: 'be1a7eff-1608-42e4-ab79-a96e12a8c4b6', 'Content-Type': 'application/json'};
