@@ -1,40 +1,25 @@
-import React, {useState, useEffect} from "react";
+import React, {useContext} from "react";
 import Card from "./Card";
-import api from "./../utils/Api";
+import {CurrentUserContext} from '../contexts/CurrentUserContext';
 
 function Main(props) {
 
-	const [userName, setUserName] = useState("");
-	const [userDescription, setUserDescription] = useState("");
-	const [userAvatar, setUserAvatar] = useState("");
-	const [cards, setCards] = useState([]);
-
-	useEffect(() => {
-		Promise.all([api.getUserInfo(), api.getCards()])
-			.then(data => {
-				const [userInfo, cards] = data;
-				setUserName(userInfo.name);
-				setUserDescription(userInfo.about);
-				setUserAvatar(userInfo.avatar);
-				setCards(cards.reverse());
-			})
-			.catch(() => console.log("Ошибка загрузки данных с сервера"));
-	}, []);
+	const currentUser = useContext(CurrentUserContext);
 
 	return (
 		<main className="content">
 			<section className="profile">
 				<div className="profile__avatar-cover" onClick={props.onEditAvatar}>
-					<img src={userAvatar} alt="картинка - аватар пользователя" className="profile__avatar"/>
+					<img src={currentUser.avatar} alt="картинка - аватар пользователя" className="profile__avatar"/>
 				</div>
 				<div className="profile__info">
-					<h1 className="profile__name">{userName}</h1>
+					<h1 className="profile__name">{currentUser.name}</h1>
 					<button type="button"
 							  aria-label="add"
 							  className="profile__button-edit"
 							  onClick={props.onEditProfile}>
 					</button>
-					<p className="profile__job">{userDescription}</p>
+					<p className="profile__job">{currentUser.about}</p>
 				</div>
 				<button type="button"
 						  aria-label="edit"
@@ -44,9 +29,11 @@ function Main(props) {
 
 			<section className="elements">
 				<ul className="elements__list">
-					{cards.map((item) => (
+					{props.cards.map((item) => (
 						<Card card={item}
 								onCardClick={props.onCardClick}
+								onCardLike={props.onCardLike}
+								onCardDelete={props.onCardDelete}
 								key={item._id}/>
 					))}
 				</ul>
