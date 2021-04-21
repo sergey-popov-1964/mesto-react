@@ -5,7 +5,7 @@ function EditAvatarPopup(props) {
 
 	const [avatar, setAvatar] = useState('');
 
-	useEffect(()=> {
+	useEffect(() => {
 		setAvatar('');
 	}, [props.isOpen])
 
