@@ -1,28 +1,21 @@
-import React, {useRef, useState, useEffect} from "react";
+import React, {useRef, useEffect} from "react";
 import PopupWithForm from "./PopupWithForm";
 
 function EditAvatarPopup(props) {
 
-	const [avatar, setAvatar] = useState('');
-
-	useEffect(() => {
-		setAvatar('');
-	}, [props.isOpen])
-
 	const avatarRef = useRef(0);
 
+	useEffect(() => {
+		avatarRef.current.value = ('');
+	}, [props.isOpen])
 
 	function handleClosePopup() {
 		props.onClose()
 	}
 
-	function handleChangeAvatar(e) {
-		setAvatar(e.target.value);
-	}
-
 	function handleSubmit(e) {
 		e.preventDefault();
-		props.onUpdateAvatar({avatar: avatar});
+		props.onUpdateAvatar({avatar: avatarRef.current.value});
 	}
 
 	return (
@@ -35,9 +28,7 @@ function EditAvatarPopup(props) {
 			<label className="form__label">
 				<input type="url"
 						 id="input-avatar"
-						 value={avatar}
 						 ref={avatarRef}
-						 onChange={handleChangeAvatar}
 						 className="form__input form__input_type_last form__input_type_first form__input_avatar_link"
 						 name="avatar_mesto"
 						 placeholder="Введите адрес"

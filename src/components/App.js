@@ -12,7 +12,7 @@ import AddPlacePopup from "./AddPlacePopup";
 
 function App() {
 
-	const [currentUser, setCurrentUser] = useState("");
+	const [currentUser, setCurrentUser] = useState({});
 
 	const [cards, setCards] = useState([]);
 
@@ -28,20 +28,24 @@ function App() {
 				setCurrentUser(userInfo);
 				setCards(cards);
 			})
-			.catch(() => console.log("Ошибка загрузки данных с сервера"));
+			.catch((error) => console.log("Ошибка загрузки данных с сервера", error));
 	}, []);
 
 	function handleCardLike(card) {
 		const isLiked = card.likes.some(i => i._id === currentUser._id);
-		api.changeLikeCardStatus(card._id, !isLiked).then((newCard) => {
-			setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
-		});
+		api.changeLikeCardStatus(card._id, !isLiked)
+			.then((newCard) => {
+				setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
+			})
+			.catch((error) => console.log("Ошибка загрузки данных с сервера", error));
 	}
 
 	function handleCardDelete(card) {
-		api.deleteCards(card._id).then(() => {
-			setCards((state) => state.filter(item => item._id !== card._id));
-		});
+		api.deleteCards(card._id)
+			.then(() => {
+				setCards((state) => state.filter(item => item._id !== card._id));
+			})
+			.catch((error) => console.log("Ошибка загрузки данных с сервера", error));
 	}
 
 	function handleCardClick(card, evt) {
@@ -73,27 +77,27 @@ function App() {
 		api.setUserInfo(data)
 			.then(response => {
 				setCurrentUser(response);
+				closeAllPopups()
 			})
 			.catch((error) => console.log("Ошибка загрузки данных с сервера", error));
-		closeAllPopups()
 	}
 
 	function handleUpdateAvatar(data) {
 		api.setUserAvatar(data)
 			.then(response => {
 				setCurrentUser(response);
+				closeAllPopups()
 			})
 			.catch((error) => console.log("Ошибка загрузки данных с сервера", error));
-		closeAllPopups()
 	}
 
 	function handleAddPlaceSubmit(data) {
 		api.addCard(data)
 			.then(response => {
 				setCards([response, ...cards]);
+				closeAllPopups()
 			})
 			.catch((error) => console.log("Ошибка загрузки данных с сервера", error));
-		closeAllPopups()
 	}
 
 	return (
@@ -115,7 +119,7 @@ function App() {
 											onUpdateUser={handleUpdateUser}/>
 
 					<AddPlacePopup isOpen={isAddPlacePopupOpen}
-											onClose={closeAllPopups}
+										onClose={closeAllPopups}
 										onAddCard={handleAddPlaceSubmit}/>
 
 					<EditAvatarPopup isOpen={isEditAvatarPopupOpen}
