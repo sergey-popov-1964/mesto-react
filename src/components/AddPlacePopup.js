@@ -1,10 +1,15 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import PopupWithForm from "./PopupWithForm";
 
 function AddPlacePopup(props) {
 
 	const [name, setName] = useState('');
 	const [link, setLink] = useState('');
+
+	useEffect(()=> {
+		setName('');
+		setLink('');
+	}, [props.isOpen])
 
 	function handleChangeName(e) {
 		setName(e.target.value);
@@ -33,6 +38,7 @@ function AddPlacePopup(props) {
 			<label className="form__label">
 				<input type="text"
 						 id="input-mesto"
+						 value={name}
 						 onChange={handleChangeName}
 						 className="form__input form__input_type_first form__input_add_name"
 						 name="add_name_mesto"
@@ -44,6 +50,7 @@ function AddPlacePopup(props) {
 			<label className="form__label">
 				<input type="url"
 						 id="input-link"
+						 value={link}
 						 onChange={handleChangeLink}
 						 className="form__input form__input_type_last form__input_add_link"
 						 name="add_name_link"
